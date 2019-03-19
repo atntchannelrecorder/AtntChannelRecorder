@@ -1,29 +1,35 @@
-package com.application.AtntChannelRecorder.repo_channel;
+package com.application.AtntChannelRecorder.channel.repository;
 
+import com.google.firebase.firestore.PropertyName;
 import com.google.gson.annotations.SerializedName;
 
-public class ChannelPojo {
+public class ProgramPojo {
 
+    @PropertyName("id")
     @SerializedName("id")
-    private String mId;
+    private long mId;
 
+    @PropertyName("title")
     @SerializedName("title")
     private String mTitle;
 
+    @PropertyName("startTime")
     @SerializedName("startTime")
     private int mStartTime;
 
+    @PropertyName("duration")
     @SerializedName("duration")
     private int mDuration;
 
+    @PropertyName("poster")
     @SerializedName("poster")
     private String mPoster;
 
-    public String getId() {
+    public long getId() {
         return mId;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         mId = id;
     }
 

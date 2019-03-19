@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/sliding_tabs"
@@ -12,6 +12,14 @@
         android:layout_height="wrap_content"
         app:tabMode="fixed"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:id="@+id/indeterminateBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/sliding_tabs"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_channel_pager"
@@ -24,5 +32,26 @@
 
     </android.support.v4.view.ViewPager>
 
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_recording_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_recording_notification"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Treasure Island recording" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

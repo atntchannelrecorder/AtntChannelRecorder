@@ -1,4 +1,4 @@
-package com.application.AtntChannelRecorder.view;
+package com.application.AtntChannelRecorder.channel.view;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -14,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.application.AtntChannelRecorder.R;
-import com.application.AtntChannelRecorder.viewmodel.ChannelModel;
-import com.application.AtntChannelRecorder.viewmodel.ChannelViewModel;
+import com.application.AtntChannelRecorder.channel.viewmodel.ProgramDisplayModel;
+import com.application.AtntChannelRecorder.channel.viewmodel.ChannelViewModel;
+import com.application.AtntChannelRecorder.shared.LoadingCallbacks;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -62,14 +64,24 @@ public class ChannelFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mChannelAdapter = new ChannelAdapter(new ArrayList(), this);
+        mChannelAdapter = new ChannelAdapter(new ArrayList(),
+                this,
+                getContext(),
+                channelNumber,
+                new LoadingCallbacks() {
+                    @Override
+                    public void loadingCallbacks(Single<String> singleLoading) {
+
+                    }
+                }
+        );
         mRecyclerView.setAdapter(mChannelAdapter);
         mCompositeDisposable.add(
                 mViewModel.getChannelFlowable(channelNumber)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith((new DisposableSubscriber<List<ChannelModel>>() {
+                        .subscribeWith((new DisposableSubscriber<List<ProgramDisplayModel>>() {
                             @Override
-                            public void onNext(List<ChannelModel> channelModels) {
+                            public void onNext(List<ProgramDisplayModel> channelModels) {
                                 Log.d(TAG, "Got channel models in fragment");
                                 mChannelAdapter.setData(channelModels);
                             }

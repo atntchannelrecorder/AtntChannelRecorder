@@ -21,7 +21,6 @@
         />
 
 
-
     <TextView
         android:id="@+id/tv_row_title"
         android:layout_width="0dp"
@@ -31,10 +30,18 @@
         android:textStyle="bold"
         tools:text="National Treasure"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_movie_poster"
+        app:layout_constraintEnd_toStartOf="@+id/iv_status_icon"
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <ImageView
+        android:id="@+id/iv_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@drawable/record_dot"
+        app:layout_constraintEnd_toStartOf="@+id/iv_movie_poster"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_row_start_time"

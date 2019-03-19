@@ -1,4 +1,4 @@
-package com.application.AtntChannelRecorder.repo_channel;
+package com.application.AtntChannelRecorder.channel.repository;
 
 
 import android.util.Log;
@@ -19,15 +19,15 @@ public class ChannelRepo {
 
     public final static String TAG = "ChannelRepo";
     private static ChannelRepo sChannelRepo = null;
-    private Flowable<List<ChannelPojo>> mChannel_1;
-    private Flowable<List<ChannelPojo>> mChannel_2;
-    private Flowable<List<ChannelPojo>> mChannel_3;
-    private FlowableEmitter<List<ChannelPojo>> mChannel_1_Emitter;
-    private FlowableEmitter<List<ChannelPojo>> mChannel_2_Emitter;
-    private FlowableEmitter<List<ChannelPojo>> mChannel_3_Emitter;
+    private Flowable<List<ProgramPojo>> mChannel_1;
+    private Flowable<List<ProgramPojo>> mChannel_2;
+    private Flowable<List<ProgramPojo>> mChannel_3;
+    private FlowableEmitter<List<ProgramPojo>> mChannel_1_Emitter;
+    private FlowableEmitter<List<ProgramPojo>> mChannel_2_Emitter;
+    private FlowableEmitter<List<ProgramPojo>> mChannel_3_Emitter;
 
 
-    BackendService mBackendService;
+    ChannelService mBackendService;
 
     public static ChannelRepo getInstance() {
         if(sChannelRepo == null) {
@@ -43,7 +43,7 @@ public class ChannelRepo {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-        mBackendService = retrofit.create(BackendService.class);
+        mBackendService = retrofit.create(ChannelService.class);
         mChannel_1 = Flowable.create(emitter -> {
             mChannel_1_Emitter = emitter;
             getChannel_1();
@@ -62,50 +62,51 @@ public class ChannelRepo {
     }
 
     public void getChannel_1() {
-        mBackendService.listRepos(1).enqueue(new Callback<List<ChannelPojo>>() {
+        mBackendService.listRepos(1).enqueue(new Callback<List<ProgramPojo>>() {
             @Override
-            public void onResponse(Call<List<ChannelPojo>> call, Response<List<ChannelPojo>> response) {
+            public void onResponse(Call<List<ProgramPojo>> call, Response<List<ProgramPojo>> response) {
                 Log.d(TAG, "Got data from get request");
+
                 mChannel_1_Emitter.onNext(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<ChannelPojo>> call, Throwable t) {
+            public void onFailure(Call<List<ProgramPojo>> call, Throwable t) {
 
             }
         });
     }
 
     public void getChannel_2() {
-        mBackendService.listRepos(2).enqueue(new Callback<List<ChannelPojo>>() {
+        mBackendService.listRepos(2).enqueue(new Callback<List<ProgramPojo>>() {
             @Override
-            public void onResponse(Call<List<ChannelPojo>> call, Response<List<ChannelPojo>> response) {
+            public void onResponse(Call<List<ProgramPojo>> call, Response<List<ProgramPojo>> response) {
                 mChannel_2_Emitter.onNext(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<ChannelPojo>> call, Throwable t) {
+            public void onFailure(Call<List<ProgramPojo>> call, Throwable t) {
 
             }
         });
     }
 
     public void getChannel_3() {
-        mBackendService.listRepos(3).enqueue(new Callback<List<ChannelPojo>>() {
+        mBackendService.listRepos(3).enqueue(new Callback<List<ProgramPojo>>() {
             @Override
-            public void onResponse(Call<List<ChannelPojo>> call, Response<List<ChannelPojo>> response) {
+            public void onResponse(Call<List<ProgramPojo>> call, Response<List<ProgramPojo>> response) {
                 mChannel_3_Emitter.onNext(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<ChannelPojo>> call, Throwable t) {
+            public void onFailure(Call<List<ProgramPojo>> call, Throwable t) {
 
             }
         });
     }
 
 
-    public Flowable<List<ChannelPojo>> getFlowableChannel(int channelNumber) {
+    public Flowable<List<ProgramPojo>> getFlowableChannel(int channelNumber) {
         switch(channelNumber) {
             case 1:
                 return mChannel_1;

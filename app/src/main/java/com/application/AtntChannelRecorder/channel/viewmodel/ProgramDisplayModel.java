@@ -1,6 +1,7 @@
-package com.application.AtntChannelRecorder.viewmodel;
+package com.application.AtntChannelRecorder.channel.viewmodel;
 
-import com.application.AtntChannelRecorder.repo_channel.ChannelPojo;
+import com.application.AtntChannelRecorder.channel.repository.ProgramPojo;
+import com.application.AtntChannelRecorder.user.repository.UserPojo;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -8,20 +9,22 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ChannelModel {
-    private String mId;
+public class ProgramDisplayModel {
 
     private String mTitle;
 
     private String mStartTime;
 
-    private String mDuration;
-
     private String mPoster;
 
-    ChannelModel(ChannelPojo channelPojo) {
-        mId = channelPojo.getId();
+    private ProgramPojo mProgramPojo;
 
+    private boolean isCurrentlyRecording;
+
+    private boolean isScheduledToRecord;
+
+    ProgramDisplayModel(ProgramPojo channelPojo, UserPojo userPojo) {
+        mProgramPojo = channelPojo;
         //Create title with duration
         float hours =  (float)channelPojo.getDuration()/3600;
         DecimalFormat df = new DecimalFormat("###.#");
@@ -46,51 +49,39 @@ public class ChannelModel {
         }
         SimpleDateFormat yourDateFormat = new SimpleDateFormat("h:mm a", Locale.US);
         mStartTime += yourDateFormat.format(startDate);
-        mStartTime += " - " + yourDateFormat.format(new Date(channelPojo.getStartTime() + channelPojo.getDuration() * 1000));
+        mStartTime += " - " + yourDateFormat.format(new Date(channelPojo.getStartTime() +
+                channelPojo.getDuration() * 1000));
 
+        //Determine if currently recording
+        if(userPojo.getCurrentRecording().getId() ==channelPojo.getId()) {
+            isCurrentlyRecording = true;
+        }
 
-
-//        mStartTime = startDate.toString();
         mPoster = channelPojo.getPoster();
     }
 
-    public String getId() {
-        return mId;
-    }
-
-    public void setId(String id) {
-        mId = id;
-    }
 
     public String getTitle() {
         return mTitle;
-    }
-
-    public void setTitle(String title) {
-        mTitle = title;
     }
 
     public String getStartTime() {
         return mStartTime;
     }
 
-    public void setStartTime(String startTime) {
-        mStartTime = startTime;
-    }
-
-    public String getDuration() {
-        return mDuration;
-    }
-
-    public void setDuration(String duration) {
-        mDuration = duration;
-    }
-
     public String getPoster() {
         return mPoster;
     }
 
-    public void setPoster(String poster) {
-        mPoster = poster;
+    public ProgramPojo getProgramPojo() {
+        return mProgramPojo;
+    }
+
+    public boolean isCurrentlyRecording() {
+        return isCurrentlyRecording;
+    }
+
+    public boolean isScheduledToRecord() {
+        return isScheduledToRecord;
     }
 }
