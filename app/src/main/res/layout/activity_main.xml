@@ -13,13 +13,6 @@
         app:tabMode="fixed"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:id="@+id/indeterminateBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/sliding_tabs"
-        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_channel_pager"

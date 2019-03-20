@@ -1,5 +1,6 @@
 package com.application.AtntChannelRecorder.shared;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ProgressBar;
 
@@ -9,7 +10,8 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public abstract class LoadingActivity extends AppCompatActivity implements LoadingCallbacks{
 
-    protected abstract ProgressBar getProgressBar();
+    protected ProgressDialog mProgressDialog;
+
 
     public void loadingCallbacks(Single<String> singleLoading) {
         singleLoading.observeOn(AndroidSchedulers.mainThread())

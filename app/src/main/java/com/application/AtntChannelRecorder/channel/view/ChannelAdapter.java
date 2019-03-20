@@ -5,11 +5,13 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.application.AtntChannelRecorder.R;
@@ -21,6 +23,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelViewHolder> {
 
     public static final String TAG = "ChannelAdapter";
@@ -28,16 +34,13 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
     Fragment mFragment;
     int mChannelNumber;
     Context mContext;
-    LoadingCallbacks mLoadingCallbacks;
 
     public ChannelAdapter(List<ProgramDisplayModel> channelModels,
-                          Fragment fragment, Context context, int channelNumber,
-                          LoadingCallbacks loadingCallbacks) {
+                          Fragment fragment, Context context, int channelNumber) {
         mChannelModels = channelModels;
         mFragment = fragment;
         mContext = context;
         mChannelNumber = channelNumber;
-        mLoadingCallbacks = loadingCallbacks;
     }
 
     class ChannelViewHolder extends RecyclerView.ViewHolder {
@@ -46,6 +49,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
         ImageView moviePoster;
         Button button;
         ImageView statusIcon;
+        ProgressBar recordBookingProgress;
         ChannelViewHolder(View v) {
             super(v);
             titleView = v.findViewById(R.id.tv_row_title);
@@ -53,6 +57,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
             button = v.findViewById(R.id.bt_row_record);
             moviePoster = v.findViewById(R.id.iv_movie_poster);
             statusIcon = v.findViewById(R.id.iv_status_icon);
+            recordBookingProgress = v.findViewById(R.id.pb_record_booking);
         }
     }
 
@@ -69,6 +74,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
         ProgramDisplayModel channelModel = mChannelModels.get(i);
         channelViewHolder.titleView.setText(channelModel.getTitle());
         channelViewHolder.startTime.setText(channelModel.getStartTime());
+        channelViewHolder.recordBookingProgress.setVisibility(View.INVISIBLE);
 
         if(channelModel.isCurrentlyRecording()) {
             Drawable myDrawable = mContext.getResources().getDrawable(R.drawable.record_dot);
@@ -89,19 +95,37 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
                     .into(channelViewHolder.moviePoster);
         }
 
-        actionButtonBind(channelViewHolder.button, channelModel.getProgramPojo());
-    }
+        if(channelModel.isCurrentlyRecording() || channelModel.isScheduledToRecord()) {
+            channelViewHolder.button.setText("Cancel");
+        }
+        else {
+            channelViewHolder.button.setText("Record");
+        }
 
-
-    protected void actionButtonBind(Button actionButton, ProgramPojo programPojo) {
-        actionButton.setText("Record");
-        actionButton.setOnClickListener(new View.OnClickListener() {
+        channelViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserRepo.getInstance().addToRecording(mChannelNumber, programPojo);
+                channelViewHolder.recordBookingProgress.setVisibility(View.VISIBLE);
+                UserRepo.getInstance().addToRecording(mChannelNumber, channelModel.getProgramPojo())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+                                Log.d(TAG, "Success: " + s);
+                                channelViewHolder.recordBookingProgress.setVisibility(View.INVISIBLE);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(TAG, "Failed: " + e);
+                                channelViewHolder.recordBookingProgress.setVisibility(View.INVISIBLE);
+                            }
+                        });
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

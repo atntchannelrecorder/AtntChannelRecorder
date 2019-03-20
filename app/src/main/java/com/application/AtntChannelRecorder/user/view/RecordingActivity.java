@@ -40,14 +40,6 @@ public class RecordingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
-        RecordAdapter mChannelAdapter = new RecordAdapter(new ArrayList(), this,
-            new LoadingCallbacks() {
-                @Override
-                public void loadingCallbacks(Single<String> singleLoading) {
-
-                }
-            });
-        recyclerView.setAdapter(mChannelAdapter);
 
     }
 

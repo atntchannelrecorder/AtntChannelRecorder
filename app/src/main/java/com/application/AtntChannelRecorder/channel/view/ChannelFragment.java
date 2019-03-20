@@ -67,13 +67,7 @@ public class ChannelFragment extends Fragment {
         mChannelAdapter = new ChannelAdapter(new ArrayList(),
                 this,
                 getContext(),
-                channelNumber,
-                new LoadingCallbacks() {
-                    @Override
-                    public void loadingCallbacks(Single<String> singleLoading) {
-
-                    }
-                }
+                channelNumber
         );
         mRecyclerView.setAdapter(mChannelAdapter);
         mCompositeDisposable.add(
