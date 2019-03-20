@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "875197772026",
+    "firebase_url": "https://atnt-channel-recorder.firebaseio.com",
+    "project_id": "atnt-channel-recorder",
+    "storage_bucket": "atnt-channel-recorder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875197772026:android:4da5f70e4a15cf0c",
+        "android_client_info": {
+          "package_name": "com.application.AtntChannelRecorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875197772026-cd6dcbctmpk9r1j6fcnqhck6rfkot6i2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.application.AtntChannelRecorder",
+            "certificate_hash": "c8c77b5c02840d590304621cea2586a37fcd7f18"
+          }
+        },
+        {
+          "client_id": "875197772026-sm6bktj73vci8fe1f9re6u9j4nc6p059.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY1w6i3DOADQRuhsT_KIK4ncHMAyCbVPs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875197772026-sm6bktj73vci8fe1f9re6u9j4nc6p059.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
