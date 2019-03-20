@@ -51,12 +51,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(pager);
         ConstraintLayout recordingNotifyLayout = findViewById(R.id.cl_recording_notification);
         Context context = this;
-        recordingNotifyLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(RecordingActivity.getMyIntent(context));
-            }
-        });
         TextView tvRecordingNotify = findViewById(R.id.tv_recording_notification);
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         recordingNotifyLayout.setVisibility(View.INVISIBLE);
