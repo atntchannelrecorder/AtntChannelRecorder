@@ -19,24 +19,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.application.AtntChannelRecorder.R;
-import com.application.AtntChannelRecorder.channel.repository.ChannelRepo;
 import com.application.AtntChannelRecorder.channel.view.ChannelFragment;
-import com.application.AtntChannelRecorder.channel.viewmodel.ChannelViewModel;
-import com.application.AtntChannelRecorder.channel.viewmodel.ProgramDisplayModel;
-import com.application.AtntChannelRecorder.user.repository.UserRepo;
-import com.application.AtntChannelRecorder.user.view.RecordingActivity;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 
 public class MainActivity extends AppCompatActivity {
 
     CompositeDisposable mCompositeDisposable;
+    MainViewModel mViewModel;
     public static final String TAG = "MainActivity";
 
     @Override
@@ -52,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout recordingNotifyLayout = findViewById(R.id.cl_recording_notification);
         Context context = this;
         TextView tvRecordingNotify = findViewById(R.id.tv_recording_notification);
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         recordingNotifyLayout.setVisibility(View.INVISIBLE);
         mCompositeDisposable = new CompositeDisposable();
         mCompositeDisposable.add(
-                viewModel.getRecordingNotificationFlowable()
+                mViewModel.getRecordingNotificationFlowable()
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith((new DisposableSubscriber<String>() {
                             @Override
@@ -97,10 +90,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_refresh:
-                ChannelRepo.getInstance().getChannel_1();
-                ChannelRepo.getInstance().getChannel_2();
-                ChannelRepo.getInstance().getChannel_3();
-                UserRepo.getInstance();
+                mViewModel.refreshRepo();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,5 +1,7 @@
 package com.application.AtntChannelRecorder.channel.viewmodel;
 
+import android.util.Log;
+
 import com.application.AtntChannelRecorder.channel.repository.ProgramPojo;
 import com.application.AtntChannelRecorder.user.repository.UserPojo;
 
@@ -10,6 +12,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ProgramDisplayModel {
+
+    public static final String TAG = "ProgramDisplayModel";
 
     private String mTitle;
 
@@ -30,15 +34,17 @@ public class ProgramDisplayModel {
         DecimalFormat df = new DecimalFormat("###.#");
         mTitle = channelPojo.getTitle() + " (" + df.format(hours) + " hrs)";
 
+        Date startDate = new Date(channelPojo.getStartTime() * 1000);
         //First check if the same day
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(new Date());
-        cal2.setTime(new Date(channelPojo.getStartTime()));
+        cal2.setTime(startDate);
+
+
         boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
                 cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
 
-        Date startDate = new Date(channelPojo.getStartTime());
 
         if(!sameDay) {
             SimpleDateFormat simpleDateformat = new SimpleDateFormat("M/dd", Locale.US);
@@ -49,8 +55,8 @@ public class ProgramDisplayModel {
         }
         SimpleDateFormat yourDateFormat = new SimpleDateFormat("h:mm a", Locale.US);
         mStartTime += yourDateFormat.format(startDate);
-        mStartTime += " - " + yourDateFormat.format(new Date(channelPojo.getStartTime() +
-                channelPojo.getDuration() * 1000));
+        mStartTime += " - " + yourDateFormat.format(new Date((channelPojo.getStartTime() +
+                channelPojo.getDuration()) * 1000));
 
         //Determine if currently recording
         if(userPojo.getCurrentRecording() == null) {

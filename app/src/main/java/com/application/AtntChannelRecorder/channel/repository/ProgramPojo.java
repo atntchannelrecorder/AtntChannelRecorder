@@ -15,7 +15,7 @@ public class ProgramPojo {
 
     @PropertyName("startTime")
     @SerializedName("startTime")
-    private int mStartTime;
+    private long mStartTime;
 
     @PropertyName("duration")
     @SerializedName("duration")
@@ -41,7 +41,7 @@ public class ProgramPojo {
         mTitle = title;
     }
 
-    public int getStartTime() {
+    public long getStartTime() {
         return mStartTime;
     }
 

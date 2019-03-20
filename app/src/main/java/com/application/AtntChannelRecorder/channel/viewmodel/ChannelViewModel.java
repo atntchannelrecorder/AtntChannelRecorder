@@ -1,6 +1,7 @@
 package com.application.AtntChannelRecorder.channel.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.application.AtntChannelRecorder.channel.repository.ProgramPojo;
 import com.application.AtntChannelRecorder.channel.repository.ChannelRepo;
@@ -15,6 +16,8 @@ import io.reactivex.Flowable;
 import io.reactivex.functions.BiFunction;
 
 public class ChannelViewModel extends ViewModel {
+
+    public static final String TAG = "ChannelViewModel";
 
     public ChannelViewModel() {
         super();
@@ -37,6 +40,7 @@ public class ChannelViewModel extends ViewModel {
             for(ProgramPojo channelPojo : listProgramPojo) {
                 channelDisplayModels.add(new ProgramDisplayModel(channelPojo, userPojo));
             }
+            Log.d(TAG, "emitting results to view from viewmodel");
             return channelDisplayModels;
         });
     }

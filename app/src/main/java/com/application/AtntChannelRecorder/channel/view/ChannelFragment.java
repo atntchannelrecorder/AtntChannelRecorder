@@ -70,6 +70,7 @@ public class ChannelFragment extends Fragment {
                 channelNumber
         );
         mRecyclerView.setAdapter(mChannelAdapter);
+        Log.d(TAG, "Starting to listen to flowable");
         mCompositeDisposable.add(
                 mViewModel.getChannelFlowable(channelNumber)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -82,17 +83,17 @@ public class ChannelFragment extends Fragment {
 
                             @Override
                             public void onError(Throwable t) {
+                                Log.d(TAG, "Error getting models " + t);
 
                             }
 
                             @Override
                             public void onComplete() {
-
+                                Log.d(TAG, "Flowable completed??!?! ");
                             }
                         }))
         );
         return view;
     }
-
 
 }

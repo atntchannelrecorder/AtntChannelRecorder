@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public class MainViewModel extends ViewModel {
     public static final String TAG = "MainViewModel";
@@ -39,5 +40,10 @@ public class MainViewModel extends ViewModel {
                     return null;
                 }
             });
+    }
+
+
+    public void refreshRepo() {
+        ChannelRepo.getInstance().refreshPrograms();
     }
 }
