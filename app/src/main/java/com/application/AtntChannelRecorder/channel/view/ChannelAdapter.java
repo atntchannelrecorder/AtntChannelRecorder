@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -95,7 +96,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
                     .into(channelViewHolder.moviePoster);
         }
 
-        if(channelModel.isCurrentlyRecording() || channelModel.isScheduledToRecord()) {
+        boolean isCancel = (channelModel.isCurrentlyRecording() || channelModel.isScheduledToRecord());
+
+        if(isCancel) {
             channelViewHolder.button.setText("Cancel");
         }
         else {
@@ -105,9 +108,17 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelV
         channelViewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Single<String> restRequest;
+                if(isCancel) {
+                    restRequest = UserRepo.getInstance().removeRecording(channelModel.getProgramPojo());
+                }
+                else {
+                    restRequest = UserRepo.getInstance().addToRecording(mChannelNumber, channelModel.getProgramPojo());
+                }
+
                 channelViewHolder.recordBookingProgress.setVisibility(View.VISIBLE);
-                UserRepo.getInstance().addToRecording(mChannelNumber, channelModel.getProgramPojo())
-                        .subscribeOn(Schedulers.io())
+                restRequest.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<String>() {
                             @Override

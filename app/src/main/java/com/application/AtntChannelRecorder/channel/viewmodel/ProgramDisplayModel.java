@@ -53,8 +53,14 @@ public class ProgramDisplayModel {
                 channelPojo.getDuration() * 1000));
 
         //Determine if currently recording
-        if(userPojo.getCurrentRecording().getId() ==channelPojo.getId()) {
+        if(userPojo.getCurrentRecording() == null) {
+            isCurrentlyRecording = false;
+        }
+        else if(userPojo.getCurrentRecording().getId() ==channelPojo.getId()) {
             isCurrentlyRecording = true;
+        }
+        else {
+            isScheduledToRecord = false;
         }
 
         mPoster = channelPojo.getPoster();

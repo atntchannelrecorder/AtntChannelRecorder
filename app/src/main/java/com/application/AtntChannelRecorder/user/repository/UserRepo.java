@@ -54,6 +54,7 @@ public class UserRepo {
                     public void onEvent(@Nullable DocumentSnapshot snapshot,
                                         @Nullable FirebaseFirestoreException e) {
                         if (snapshot != null && snapshot.exists()) {
+                            Log.d("MainActivity", "USERREPO: emitting");
                             UserPojo userPojo = snapshot.toObject(UserPojo.class);
                             mUserPojo = userPojo;
                             emitter.onNext(userPojo);
@@ -67,12 +68,12 @@ public class UserRepo {
         return mUserPojoFlowable;
     }
 
-
     public Single<String> addToRecording(int channelNumber, ProgramPojo programPojo) {
-        Log.d(TAG, "book recording Channel number: " + channelNumber + ", program id: "
-                + programPojo.getId());
         return mUserService.bookRecording(channelNumber, programPojo.getId());
     }
 
+    public Single<String> removeRecording(ProgramPojo programPojo) {
+        return mUserService.removeRecording(programPojo.getId());
+    }
 
 }

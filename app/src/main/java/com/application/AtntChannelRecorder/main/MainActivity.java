@@ -37,6 +37,7 @@ import io.reactivex.subscribers.DisposableSubscriber;
 public class MainActivity extends AppCompatActivity {
 
     CompositeDisposable mCompositeDisposable;
+    public static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +67,12 @@ public class MainActivity extends AppCompatActivity {
                         .subscribeWith((new DisposableSubscriber<String>() {
                             @Override
                             public void onNext(String recordingNotify) {
-                                if(recordingNotify == null) {
+                                if(recordingNotify.equals("EMPTY")) {
+                                    Log.d(TAG, "Setting to invisible");
                                     recordingNotifyLayout.setVisibility(View.INVISIBLE);
                                 }
                                 else {
+                                    Log.d(TAG, "Setting to visible");
                                     recordingNotifyLayout.setVisibility(View.VISIBLE);
                                     tvRecordingNotify.setText(recordingNotify);
                                 }

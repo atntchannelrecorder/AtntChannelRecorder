@@ -41,7 +41,8 @@
         android:padding="10dp"
         android:src="@drawable/record_dot"
         app:layout_constraintEnd_toStartOf="@+id/iv_movie_poster"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tv_row_start_time"
