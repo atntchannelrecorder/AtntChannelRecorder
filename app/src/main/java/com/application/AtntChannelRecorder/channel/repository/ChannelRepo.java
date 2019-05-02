@@ -20,9 +20,11 @@ public class ChannelRepo {
 
     public final static String TAG = "ChannelRepo";
     private static ChannelRepo sChannelRepo = null;
+
     private Flowable<List<ProgramPojo>> mChannel_1;
     private Flowable<List<ProgramPojo>> mChannel_2;
     private Flowable<List<ProgramPojo>> mChannel_3;
+
     private FlowableEmitter<List<ProgramPojo>> mChannel_1_Emitter;
     private FlowableEmitter<List<ProgramPojo>> mChannel_2_Emitter;
     private FlowableEmitter<List<ProgramPojo>> mChannel_3_Emitter;

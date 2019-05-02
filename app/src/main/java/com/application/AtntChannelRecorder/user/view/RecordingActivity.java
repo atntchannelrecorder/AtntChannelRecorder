@@ -1,6 +1,5 @@
 package com.application.AtntChannelRecorder.user.view;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import com.application.AtntChannelRecorder.R;
-import com.application.AtntChannelRecorder.shared.LoadingCallbacks;
-import com.application.AtntChannelRecorder.user.viewmodel.RecorderViewModel;
 
-import java.util.ArrayList;
-
-import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class RecordingActivity extends AppCompatActivity {
@@ -35,7 +29,6 @@ public class RecordingActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         mCompositeDisposable = new CompositeDisposable();
-        RecorderViewModel viewModel = ViewModelProviders.of(this).get(RecorderViewModel.class);
         RecyclerView recyclerView = findViewById(R.id.rv_recordings);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
