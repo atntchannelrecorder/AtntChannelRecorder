@@ -1,15 +1,23 @@
 # AT&T Coding Challenge
 
-Purpose was to showcase the use of Model - View - ViewModel with RxJAVA in Android.
+__Prompt__ - Build an app that shows three channels with TV Shows. Allow the user to record from any of the channels.
+
+__Purpose__ - Showcase the use of Model - View - ViewModel with RxJAVA in Android.
 
 Features not added was Dagger2, JUnit4 Tests and Instrumentation tests.
 
 
 ## Architecture
 
+Showcasing the seperation between Notification and ChannelFragment
+
+<img src="architecture.png" alt="drawing" height="200"/>
 
 ## End Result
 
+End result using mock data
+
+<img src="recorder.gif" alt="drawing" width="200"/>
 
 
 ## Contributing
